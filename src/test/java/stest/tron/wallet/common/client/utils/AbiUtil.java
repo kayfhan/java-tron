@@ -231,7 +231,12 @@ public class AbiUtil {
 
     @Override
     byte[] encode(String value) {
-      byte[] address = Wallet.decodeFromBase58Check(value);
+      // byte[] address = Wallet.decodeFromBase58Check(value);
+      // this or Base58.decode should not contain 'T' or '0x41'
+      byte[] addressSor = Wallet.decodeFromBase58Check(value);
+      byte[] address = new byte[20];
+      System.arraycopy(addressSor, 1, address, 0, addressSor.length - 1);
+      
       return new DataWord(address).getData();
     }
 
